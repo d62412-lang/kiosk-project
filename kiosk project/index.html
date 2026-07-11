@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버거 플레이스 키오스크 (연습용)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kiosk-container">
+        <!-- 상단 헤더 및 모드 변경 버튼 -->
+        <header class="kiosk-header">
+            <h1>BURGER PLACE</h1>
+            <div class="mode-buttons">
+                <button id="btn-senior" class="mode-btn">고령자 모드 켜기</button>
+                <button id="btn-dark" class="mode-btn">다크모드 켜기</button>
+            </div>
+        </header>
+
+        <div class="kiosk-main">
+            <!-- 왼쪽: 메뉴 카테고리 -->
+            <nav class="kiosk-nav">
+                <ul id="category-list">
+                    <li class="category-item active" data-category="Burgers">Burgers</li>
+                    <li class="category-item" data-category="Sides">Sides</li>
+                    <li class="category-item" data-category="Drinks">Drinks</li>
+                    <li class="category-item" data-category="Desserts">Desserts</li>
+                </ul>
+            </nav>
+
+            <!-- 가운데: 상품 목록 -->
+            <section class="menu-section">
+                <div id="menu-grid" class="menu-grid"></div>
+            </section>
+
+            <!-- 오른쪽: 장바구니 -->
+            <aside class="cart-section">
+                <h2>장바구니</h2>
+                <div id="cart-list" class="cart-list">
+                    <p class="empty-msg">장바구니가 비어 있습니다.</p>
+                </div>
+                <div class="cart-total">
+                    <span>총 결제 금액:</span>
+                    <span id="total-price">0원</span>
+                </div>
+                <button id="btn-checkout" class="checkout-btn">주문하기</button>
+            </aside>
+        </div>
+    </div>
+
+    <!-- 1단계: 결제 수단 선택 팝업창 (모달) -->
+    <div id="payment-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>결제 수단 선택</h2>
+            <p>결제하실 방법을 선택해 주세요.</p>
+            <div class="payment-options">
+                <button class="pay-btn card-pay" onclick="selectPaymentMethod('카드')">
+                    <span class="pay-icon">💳</span>
+                    <span class="pay-text">카드 결제</span>
+                </button>
+                <button class="pay-btn cash-pay" onclick="selectPaymentMethod('현금')">
+                    <span class="pay-icon">💵</span>
+                    <span class="pay-text">현금 결제</span>
+                </button>
+            </div>
+            <button class="close-modal-btn" onclick="closeModal('payment-modal')">취소하기</button>
+        </div>
+    </div>
+
+    <!-- 2단계: [카드 결제] 진행 팝업창 (애니메이션 및 연습 기능 포함) -->
+    <div id="card-modal" class="modal-overlay">
+        <div class="modal-content card-modal-content">
+            <h2 id="card-modal-title">💳 카드 결제 연습</h2>
+            <p id="card-modal-msg" class="highlight-text">아래 그림을 보고 카드를 투입구에 끝까지 넣어주세요!</p>
+            
+            <!-- 카드 삽입 가상 애니메이션 영역 -->
+            <div class="kiosk-slot-machine">
+                <div id="kiosk-card" class="moving-card">💳 MY CARD</div>
+                <div class="kiosk-slot"></div>
+            </div>
+
+            <!-- 연습용 가상 인터랙션 버튼 -->
+            <div class="card-action-area">
+                <button id="btn-insert-card" class="insert-btn" onclick="processCardPayment()">✨여기에 카드 넣기 (연습)</button>
+            </div>
+            <button id="btn-cancel-card" class="close-modal-btn" onclick="closeModal('card-modal')">뒤로 가기</button>
+        </div>
+    </div>
+
+    <!-- 3단계: [현금 결제] 안내 팝업창 -->
+    <div id="cash-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>💵 현금 결제 안내</h2>
+            <div class="cash-guide-box">
+                <p class="counter-msg">📢 현금 결제는 <br><strong>[카운터]</strong>에서 도와드리고 있습니다.</p>
+                <p class="sub-msg">주문서 발급을 위해 카운터 직원에게 말씀해 주세요.</p>
+            </div>
+            <button class="close-modal-btn" onclick="confirmCashPayment()">확인 완료</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
